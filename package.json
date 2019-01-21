@@ -1,0 +1,30 @@
+{
+  "name": "quiz-web-app",
+  "version": "1.0.0",
+  "description": "WebComponents based web app which allows you to make your own quzes",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint src/*.js",
+    "deploy": "gh-pages -d ./"
+  },
+  "author": "pure-js",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^5.12.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "gh-pages": "^2.0.1"
+  },
+  "keywords": [
+    "quiz",
+    "web components"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pure-js/quiz-web-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pure-js/quiz-web-app/issues"
+  },
+  "homepage": "https://github.com/pure-js/quiz-web-app#readme"
+}
