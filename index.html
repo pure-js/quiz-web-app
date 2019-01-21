@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>JS Quiz</title>
+    <script type="module" src="src/question.js" async></script>
+    <script type="module" src="src/quiz.js" async></script>
+    <script type="module" src="src/results.js" async></script>
+    <script type="module" src="src/store.js" async></script>
+    <script type="module" src="src/index.js" async></script>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+        box-sizing: border-box;
+      }
+
+      @media (min-width: 576px) {
+        .container {
+          max-width: 540px;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .container {
+          max-width: 720px;
+        }
+      }
+
+      @media (min-width: 992px) {
+        .container {
+          max-width: 960px;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .container {
+          max-width: 1140px;
+        }
+      }
+
+      .col-sm {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <quiz-app class="col-sm"></quiz-app>
+    </div>
+  </body>
+</html>
