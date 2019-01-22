@@ -55,6 +55,36 @@ template.innerHTML = `
     .m-bottom-5 {
       margin-bottom: 5px;
     }
+    .scrolling-wrapper {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      width: calc(100vw - (15px + 12px + 1px) * 2);
+    }
+
+    @media (min-width: 576px) {
+      .scrolling-wrapper {
+        max-width: calc(540px - (15px + 12px + 1px) * 2);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .scrolling-wrapper {
+        max-width: calc(720px - (15px + 12px + 1px) * 2);
+      }
+    }
+
+    @media (min-width: 992px) {
+      .scrolling-wrapper {
+        max-width: calc(960px - (15px + 12px + 1px) * 2);
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .scrolling-wrapper {
+        max-width: calc(1140px - (15px + 12px + 1px) * 2);
+      }
+    }
   </style>
 
   <form class="m-top-15">
@@ -144,8 +174,11 @@ class Question extends HTMLElement {
       }
 
       if (this.question.image) {
+        const imageContainer = document.createElement('div');
+        imageContainer.classList.add('scrolling-wrapper');
         const image = this.constructor.createImage(this.question.image, 560, 410, 'Some Front-end related code');
-        this.fieldset.appendChild(image);
+        this.fieldset.appendChild(imageContainer);
+        imageContainer.appendChild(image);
       }
 
       this.constructor
