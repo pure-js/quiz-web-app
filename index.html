@@ -8,7 +8,7 @@
     <script type="module" src="src/quiz.js" async></script>
     <script type="module" src="src/results.js" async></script>
     <script type="module" src="src/store.js" async></script>
-    <script type="module" src="src/index.js" async></script>
+    <script type="module" src="src/index.js" defer></script>
     <style>
       body {
         margin: 0;
@@ -46,15 +46,9 @@
           max-width: 1140px;
         }
       }
-
-      .col-sm {
-        display: block;
-      }
     </style>
   </head>
   <body>
-    <div class="container">
-      <quiz-app class="col-sm"></quiz-app>
-    </div>
+    <div class="container"></div>
   </body>
 </html>

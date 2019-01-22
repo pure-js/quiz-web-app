@@ -1,9 +1,6 @@
 const template = document.createElement('template');
 template.innerHTML = `
   <style>
-    img {
-      display: block;
-    }
     input {
       margin-right: 12px;
     }
@@ -15,7 +12,7 @@ template.innerHTML = `
       left: 0;
       content: "";
     }
-    .answer::after {
+    .correctnes-icon {
       content: "";
       position: absolute;
       top: calc(50% - 12px);
@@ -29,15 +26,15 @@ template.innerHTML = `
     .answer_correct:before {
       background: rgba(63, 195, 128, .7);
     }
-    .answer_correct:after {
+    /* .answer_correct:after {
       mask: url(./icons/icons8-ok.svg);
-    }
+    } */
     .answer_wrong:before {
       background: rgba(240, 52, 52, .7);
     }
-    .answer_wrong:after {
+    /* .answer_wrong:after {
       mask: url(./icons/icons8-cancel.svg);
-    }
+    } */
     .btn_secondary {
       border: 1px solid black;
       background: none;
@@ -54,6 +51,34 @@ template.innerHTML = `
     }
     .m-bottom-5 {
       margin-bottom: 5px;
+    }
+    .scrolling-wrapper {
+      overflow-x: scroll;
+      width: calc(100vw - (15px + 12px + 1px) * 2);
+    }
+
+    @media (min-width: 576px) {
+      .scrolling-wrapper {
+        max-width: calc(540px - (15px + 12px + 1px) * 2);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .scrolling-wrapper {
+        max-width: calc(720px - (15px + 12px + 1px) * 2);
+      }
+    }
+
+    @media (min-width: 992px) {
+      .scrolling-wrapper {
+        max-width: calc(960px - (15px + 12px + 1px) * 2);
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .scrolling-wrapper {
+        max-width: calc(1140px - (15px + 12px + 1px) * 2);
+      }
     }
   </style>
 
@@ -117,19 +142,17 @@ class Question extends HTMLElement {
     return ['question', 'correctness'];
   }
 
+  static flashCSSClass(node, classArr) {
+    node.classList.add(...classArr);
+    window.setTimeout(() => {
+      node.classList.remove(...classArr);
+    }, 500);
+  }
+
   attributeChangedCallback(attr, oldValue, newValue) {
     if (attr === 'correctness') {
-      if (newValue === 'true') {
-        this.fieldset.classList.add('answer', 'answer_correct');
-        window.setTimeout(() => {
-          this.fieldset.classList.remove('answer', 'answer_correct');
-        }, 500);
-      } else if (newValue === 'false') {
-        this.fieldset.classList.add('answer', 'answer_wrong');
-        window.setTimeout(() => {
-          this.fieldset.classList.remove('answer', 'answer_wrong');
-        }, 500);
-      }
+      const answerTypeCSSClass = (JSON.parse(newValue)) ? 'answer_correct' : 'answer_wrong';
+      this.constructor.flashCSSClass(this.fieldset, ['answer', answerTypeCSSClass]);
     }
 
     if (attr === 'question' && oldValue !== newValue) {
@@ -144,8 +167,11 @@ class Question extends HTMLElement {
       }
 
       if (this.question.image) {
+        const imageContainer = document.createElement('div');
+        imageContainer.classList.add('scrolling-wrapper');
         const image = this.constructor.createImage(this.question.image, 560, 410, 'Some Front-end related code');
-        this.fieldset.appendChild(image);
+        this.fieldset.appendChild(imageContainer);
+        imageContainer.appendChild(image);
       }
 
       this.constructor
