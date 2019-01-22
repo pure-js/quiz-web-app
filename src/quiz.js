@@ -50,10 +50,13 @@ class Quiz extends HTMLElement {
     return JSON.parse(this.getAttribute('answers'));
   }
 
+  get chosenAnswer() {
+    return this.shadow.querySelector('quiz-question').shadowRoot.querySelector('input[type="radio"]:checked');
+  }
+
   get isCorrectAnswer() {
-    const chosen = this.shadow.querySelector('quiz-question').shadowRoot.querySelector('input[type="radio"]:checked');
-    const correct = this.answers.find(answer => answer.id === Number(chosen.name));
-    return correct.answer === Number(chosen.id);
+    const correct = this.answers.find(answer => answer.id === Number(this.chosenAnswer.name));
+    return correct.answer === Number(this.chosenAnswer.id);
   }
 
   constructor() {
@@ -61,6 +64,10 @@ class Quiz extends HTMLElement {
 
     this.shadow = this.attachShadow({ mode: 'open' });
     this.shadow.appendChild(template.content.cloneNode(true));
+    this.resetInitialValues();
+  }
+
+  resetInitialValues() {
     this.index = 0;
     this.correctAnswers = 0;
   }
@@ -80,13 +87,15 @@ class Quiz extends HTMLElement {
   }
 
   handleAnswer() {
-    this.index += 1;
-    this.questionEl.setAttribute('correctness', this.isCorrectAnswer);
-    if (this.isCorrectAnswer) { this.correctAnswers += 1; }
-    if (this.questions.length === this.index) {
-      this.addResultsComponent();
-    } else {
-      this.setQuestionToElement(this.questionEl);
+    if (this.chosenAnswer) {
+      this.index += 1;
+      this.questionEl.setAttribute('correctness', this.isCorrectAnswer);
+      if (this.isCorrectAnswer) { this.correctAnswers += 1; }
+      if (this.questions.length === this.index) {
+        this.addResultsComponent();
+      } else {
+        this.setQuestionToElement(this.questionEl);
+      }
     }
   }
 
@@ -96,24 +105,17 @@ class Quiz extends HTMLElement {
     element.appendChild(this.questionEl);
   }
 
-  removeStartComponent(element) {
-    if (element.contains(this.startBtn.parentNode)) {
-      element.removeChild(this.startBtn.parentNode);
-    }
-  }
-
-  removeResultsComponent(element) {
-    if (element.contains(this.resultsEl)) {
-      element.removeChild(this.resultsEl);
+  static removeChildIfExist(node, child) {
+    if (node.contains(child)) {
+      node.removeChild(child);
     }
   }
 
   startQuiz() {
-    this.index = 0;
-    this.correctAnswers = 0;
+    this.resetInitialValues();
     this.addQuestionComponent(this.shadow);
-    this.removeStartComponent(this.shadow);
-    this.removeResultsComponent(this.shadow);
+    this.constructor.removeChildIfExist(this.shadow, this.startBtn.parentNode);
+    this.constructor.removeChildIfExist(this.shadow, this.resultsEl);
     const answerBtn = this.shadow.querySelector('quiz-question').shadowRoot.querySelector('button');
     answerBtn.onclick = this.handleAnswer.bind(this);
   }
