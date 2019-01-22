@@ -1,6 +1,6 @@
 {
   "name": "quiz-web-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "WebComponents based web app which allows you to make your own quzes",
   "main": "index.js",
   "scripts": {
