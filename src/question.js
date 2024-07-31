@@ -1,4 +1,4 @@
-const template = document.createElement('template');
+const template = document.createElement("template");
 template.innerHTML = `
   <style>
     input {
@@ -92,18 +92,18 @@ template.innerHTML = `
 
 class Question extends HTMLElement {
   get question() {
-    return JSON.parse(this.getAttribute('question'));
+    return JSON.parse(this.getAttribute("question"));
   }
 
   constructor() {
     super();
 
-    this.shadow = this.attachShadow({ mode: 'open' });
+    this.shadow = this.attachShadow({ mode: "open" });
     this.shadow.appendChild(template.content.cloneNode(true));
   }
 
   static createImage(src, width, height, alt) {
-    const image = document.createElement('img');
+    const image = document.createElement("img");
     return Object.assign(image, {
       width,
       height,
@@ -113,7 +113,7 @@ class Question extends HTMLElement {
   }
 
   static createInput(type, name, value, id) {
-    const input = document.createElement('input');
+    const input = document.createElement("input");
     return Object.assign(input, {
       type,
       name,
@@ -123,7 +123,7 @@ class Question extends HTMLElement {
   }
 
   static createLabel(textContent, htmlFor) {
-    const label = document.createElement('label');
+    const label = document.createElement("label");
     return Object.assign(label, {
       textContent,
       htmlFor,
@@ -131,15 +131,15 @@ class Question extends HTMLElement {
   }
 
   static createRadioGroup(radioGroup, name) {
-    return radioGroup.flatMap(radio => [
-      this.createInput('radio', name, radio.id, radio.id),
+    return radioGroup.flatMap((radio) => [
+      this.createInput("radio", name, radio.id, radio.id),
       this.createLabel(radio.name, radio.id),
-      document.createElement('br'),
+      document.createElement("br"),
     ]);
   }
 
   static get observedAttributes() {
-    return ['question', 'correctness'];
+    return ["question", "correctness"];
   }
 
   static flashCSSClass(node, classArr) {
@@ -150,26 +150,39 @@ class Question extends HTMLElement {
   }
 
   attributeChangedCallback(attr, oldValue, newValue) {
-    if (attr === 'correctness') {
-      const answerTypeCSSClass = (JSON.parse(newValue)) ? 'answer_correct' : 'answer_wrong';
-      this.constructor.flashCSSClass(this.fieldset, ['answer', answerTypeCSSClass]);
+    if (attr === "correctness") {
+      const answerTypeCSSClass = JSON.parse(newValue)
+        ? "answer_correct"
+        : "answer_wrong";
+      this.constructor.flashCSSClass(this.fieldset, [
+        "answer",
+        answerTypeCSSClass,
+      ]);
     }
 
-    if (attr === 'question' && oldValue !== newValue) {
-      this.fieldset = this.shadow.querySelector('fieldset');
+    if (attr === "question" && oldValue !== newValue) {
+      this.fieldset = this.shadow.querySelector("fieldset");
 
-      this.legend = this.shadow.querySelector('legend');
+      this.legend = this.shadow.querySelector("legend");
       this.legend.textContent = this.question.question;
 
       // Remove all fieldset childs except legend
-      while (this.fieldset.lastChild && this.fieldset.lastChild !== this.legend) {
+      while (
+        this.fieldset.lastChild &&
+        this.fieldset.lastChild !== this.legend
+      ) {
         this.fieldset.lastChild.remove();
       }
 
       if (this.question.image) {
-        const imageContainer = document.createElement('div');
-        imageContainer.classList.add('scrolling-wrapper');
-        const image = this.constructor.createImage(this.question.image, 560, 410, 'Some Front-end related code');
+        const imageContainer = document.createElement("div");
+        imageContainer.classList.add("scrolling-wrapper");
+        const image = this.constructor.createImage(
+          this.question.image,
+          560,
+          410,
+          "Some Front-end related code"
+        );
         this.fieldset.appendChild(imageContainer);
         imageContainer.appendChild(image);
       }

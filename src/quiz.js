@@ -1,4 +1,4 @@
-const template = document.createElement('template');
+const template = document.createElement("template");
 template.innerHTML = `
   <style>
     :host {
@@ -43,26 +43,30 @@ template.innerHTML = `
 
 class Quiz extends HTMLElement {
   get questions() {
-    return JSON.parse(this.getAttribute('questions'));
+    return JSON.parse(this.getAttribute("questions"));
   }
 
   get answers() {
-    return JSON.parse(this.getAttribute('answers'));
+    return JSON.parse(this.getAttribute("answers"));
   }
 
   get chosenAnswer() {
-    return this.shadow.querySelector('quiz-question').shadowRoot.querySelector('input[type="radio"]:checked');
+    return this.shadow
+      .querySelector("quiz-question")
+      .shadowRoot.querySelector('input[type="radio"]:checked');
   }
 
   get isCorrectAnswer() {
-    const correct = this.answers.find(answer => answer.id === Number(this.chosenAnswer.name));
+    const correct = this.answers.find(
+      (answer) => answer.id === Number(this.chosenAnswer.name)
+    );
     return correct.answer === Number(this.chosenAnswer.id);
   }
 
   constructor() {
     super();
 
-    this.shadow = this.attachShadow({ mode: 'open' });
+    this.shadow = this.attachShadow({ mode: "open" });
     this.shadow.appendChild(template.content.cloneNode(true));
     this.resetInitialValues();
   }
@@ -73,24 +77,31 @@ class Quiz extends HTMLElement {
   }
 
   addResultsComponent() {
-    this.resultsEl = document.createElement('quiz-results');
-    this.resultsEl.setAttribute('correct-answers', this.correctAnswers);
-    this.resultsEl.setAttribute('total-answers', this.questions.length);
+    this.resultsEl = document.createElement("quiz-results");
+    this.resultsEl.setAttribute("correct-answers", this.correctAnswers);
+    this.resultsEl.setAttribute("total-answers", this.questions.length);
     this.shadow.appendChild(this.resultsEl);
     this.shadow.removeChild(this.questionEl);
-    const replayBtn = this.shadow.querySelector('quiz-results').shadowRoot.querySelector('button');
+    const replayBtn = this.shadow
+      .querySelector("quiz-results")
+      .shadowRoot.querySelector("button");
     replayBtn.onclick = this.startQuiz.bind(this);
   }
 
   setQuestionToElement(element) {
-    element.setAttribute('question', JSON.stringify(this.questions[this.index]));
+    element.setAttribute(
+      "question",
+      JSON.stringify(this.questions[this.index])
+    );
   }
 
   handleAnswer() {
     if (this.chosenAnswer) {
       this.index += 1;
-      this.questionEl.setAttribute('correctness', this.isCorrectAnswer);
-      if (this.isCorrectAnswer) { this.correctAnswers += 1; }
+      this.questionEl.setAttribute("correctness", this.isCorrectAnswer);
+      if (this.isCorrectAnswer) {
+        this.correctAnswers += 1;
+      }
       if (this.questions.length === this.index) {
         this.addResultsComponent();
       } else {
@@ -100,7 +111,7 @@ class Quiz extends HTMLElement {
   }
 
   addQuestionComponent(element) {
-    this.questionEl = document.createElement('quiz-question');
+    this.questionEl = document.createElement("quiz-question");
     this.setQuestionToElement(this.questionEl);
     element.appendChild(this.questionEl);
   }
@@ -116,12 +127,14 @@ class Quiz extends HTMLElement {
     this.addQuestionComponent(this.shadow);
     this.constructor.removeChildIfExist(this.shadow, this.startBtn.parentNode);
     this.constructor.removeChildIfExist(this.shadow, this.resultsEl);
-    const answerBtn = this.shadow.querySelector('quiz-question').shadowRoot.querySelector('button');
+    const answerBtn = this.shadow
+      .querySelector("quiz-question")
+      .shadowRoot.querySelector("button");
     answerBtn.onclick = this.handleAnswer.bind(this);
   }
 
   connectedCallback() {
-    this.startBtn = this.shadow.querySelector('button');
+    this.startBtn = this.shadow.querySelector("button");
     this.startBtn.onclick = this.startQuiz.bind(this);
   }
 }

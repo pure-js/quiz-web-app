@@ -3,3 +3,5 @@ node_modules/
 
 # macOS specific files
 .DS_store
+
+dist/

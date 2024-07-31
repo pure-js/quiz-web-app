@@ -1,4 +1,4 @@
-const template = document.createElement('template');
+const template = document.createElement("template");
 template.innerHTML = `
   <style>
     .btn-secondary {
@@ -59,22 +59,22 @@ template.innerHTML = `
 
 class Results extends HTMLElement {
   get correctAnswers() {
-    return this.getAttribute('correct-answers');
+    return this.getAttribute("correct-answers");
   }
 
   get totalAnswers() {
-    return this.getAttribute('total-answers');
+    return this.getAttribute("total-answers");
   }
 
   constructor() {
     super();
 
-    this.shadow = this.attachShadow({ mode: 'open' });
+    this.shadow = this.attachShadow({ mode: "open" });
     this.shadow.appendChild(template.content.cloneNode(true));
   }
 
   connectedCallback() {
-    const paragraph = this.shadow.querySelector('p');
+    const paragraph = this.shadow.querySelector("p");
     const percentage = (this.correctAnswers / this.totalAnswers) * 100;
     paragraph.textContent = `You correctly answered ${this.correctAnswers}  of ${this.totalAnswers} questions (${percentage}%)`;
   }
