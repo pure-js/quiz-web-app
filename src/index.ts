@@ -13,6 +13,6 @@ function addQuizApp() {
   const container = document.querySelector(".container");
   quizApp.setAttribute("questions", JSON.stringify(questions));
   quizApp.setAttribute("answers", JSON.stringify(answers));
-  container.appendChild(quizApp);
+  container?.appendChild(quizApp);
 }
 document.addEventListener("DOMContentLoaded", addQuizApp);
