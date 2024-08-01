@@ -1,57 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta charset="UTF-8" />
+    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JS Quiz</title>
-    <script type="module" src="src/question.js" async></script>
-    <script type="module" src="src/quiz.js" async></script>
-    <script type="module" src="src/results.js" async></script>
-    <script type="module" src="src/store.js" async></script>
-    <script type="module" src="src/index.js" defer></script>
-    <style>
-      body {
-        margin: 0;
-      }
-
-      .container {
-        width: 100%;
-        padding-right: 15px;
-        padding-left: 15px;
-        margin-right: auto;
-        margin-left: auto;
-        box-sizing: border-box;
-      }
-
-      @media (min-width: 576px) {
-        .container {
-          max-width: 540px;
-        }
-      }
-
-      @media (min-width: 768px) {
-        .container {
-          max-width: 720px;
-        }
-      }
-
-      @media (min-width: 992px) {
-        .container {
-          max-width: 960px;
-        }
-      }
-
-      @media (min-width: 1200px) {
-        .container {
-          max-width: 1140px;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="/src/index.css" />
+    <script type="module" src="/src/question.js" async></script>
+    <script type="module" src="/src/quiz.js" async></script>
+    <script type="module" src="/src/results.js" async></script>
+    <script type="module" src="/src/store.js" async></script>
+    <script type="module" src="/src/my-element.ts"></script>
+    <script type="module" src="/src/index.ts"></script>
   </head>
   <body>
-    <div class="container"></div>
+    <div class="container">
+      <my-element>
+        <h1>Vite + Lit</h1>
+      </my-element>
+    </div>
   </body>
 </html>
